@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 // use Laravel\Passport\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
