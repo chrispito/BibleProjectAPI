@@ -3,27 +3,42 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
+use Illuminate\Support\Facades\Log;
 
 class Bible extends Model
 {
-      /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    use Searchable;
+
+    public $timestamps = false;
+
+    public $asYouType = true;
+
     protected $fillable = [
         'book_nr',
+        'verse_id',
         'chapter_nr',
         'verse_nr',
-        'verse'
+        'verse',
+        'verse_for_search'
     ];
 
-    /**
-     * Get the related Bible type
-     */
     public function type()
     {
         return $this->hasOne(BibleType::class);
     }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        Log::info($array);
+
+        return $array;
+    }
+
+    // public function getScoutKey()
+    // {
+    //     return $this->verse_id;
+    // }
 
 }

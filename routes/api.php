@@ -20,4 +20,5 @@ Route::post('register', 'API\UserController@register');
 Route::group(['middleware' => 'jwt.auth'], function(){
 	Route::post('details', 'API\UserController@details');
 	Route::post('generate_bible', 'API\BibleController@generate');
+	Route::post('search', 'API\BibleController@search');
 });

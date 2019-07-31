@@ -14,14 +14,13 @@ class CreateBiblesTable extends Migration
     public function up()
     {
         Schema::create('bibles', function (Blueprint $table) {
-            $table->integer('id')->length(8)->unsigned();
-            $table->primary('id');
+            $table->increments('id');
+            $table->string('verse_id')->length(8)->unique();
             $table->integer('book_nr')->length(11);
             $table->integer('chapter_nr')->length(11);
             $table->integer('verse_nr')->length(11);
             $table->text('verse');
-            $table->integer('type_id')->unsigned();
-            $table->foreign('type_id')->references('id')->on('bible_types')->onDelete('cascade');
+            $table->text('verse_for_search');
         });
     }
 

@@ -19,6 +19,8 @@ class CreateBibleTypesTable extends Migration
             $table->string('sub_type', 100)->nullable();
             $table->string('name', 100)->nullable();
             $table->string('sub_name', 100)->nullable();
+            $table->unsignedInteger('bible_id');
+            $table->foreign('bible_id')->references('id')->on('bibles')->onDelete('cascade');
         });
     }
 

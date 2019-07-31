@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class BibleType extends Model
 {
     
-    
+    public $timestamps = false;
+
     /**
      * Get all related Bible.
      */
-    public function article()
+    public function bible()
     {
         return $this->bolongsTo(Bible::class);
     }
