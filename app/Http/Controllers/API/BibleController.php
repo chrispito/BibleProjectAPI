@@ -35,13 +35,25 @@ class BibleController extends Controller
     ];
 
       try {
-        $bile_verses = Bible::search($query_string)
+        $tnt = new TNTSearch;
+        $driver = config('database.default');
+        $config = config('scout.tntsearch') + config("database.connections.$driver");
+        $tnt->loadConfig($config);
+        $tnt->setDatabaseHandle(app('db')->connection()->getPdo());
+        $tnt->selectIndex("test_Ostervaldbibles.index");
+
+        // $bible_verses = Bible::search($query_string)
+        // ->orderBy('verse_id', 'asc')
+        // ->get();
+
+        $res = $tnt->searchBoolean($query_string);
+        $keys = collect($res['ids'])->values()->all();
+
+        $bible_verses = Bible::whereIn('id', $keys)
         ->orderBy('verse_id', 'asc')
         ->get();
 
-        $tnt = new TNTSearch;
-
-        $result = $bile_verses->map(function($bile_verse) use ($query_string, $tnt, $options){
+        $result = $bible_verses->map(function($bile_verse) use ($query_string, $tnt, $options){
             $bile_verse->verse = $tnt->highlight($bile_verse->verse, $query_string, 'em', $options);
 
             return $bile_verse;
